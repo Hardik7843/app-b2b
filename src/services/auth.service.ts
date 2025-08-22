@@ -1,15 +1,17 @@
-"use server";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { fetchInstance } from "@/lib/fetch";
+import { fetchInstance, fetchInstance2 } from "@/lib/fetch";
+import { LoginFormData } from "@/validators/auth.validator";
 
 // ✅ login action
-export async function loginAction(email: string, password: string) {
-  const response = await fetchInstance("/auth/login", {
-    method: "POST",
-    body: JSON.stringify({ email, password }),
-  });
+export async function loginAction(data: LoginFormData) {
+  const response = await fetchInstance2<{
+    data: any;
+    message: string;
+    success: boolean;
+    sessionToken: string;
+  }>("/auth/login", { body: JSON.stringify(data) }, "POST");
 
-  console.log("response of loginAction:", response);
   return response;
 }
 

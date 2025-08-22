@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 // src/lib/fetchInstance.ts
+
 export const fetchInstance = async <T = any>(
   url: string,
   options: RequestInit = {}
@@ -23,4 +26,24 @@ export const fetchInstance = async <T = any>(
   }
 
   return (await response.json()) as T;
+};
+
+const ALLOWED_METHODS = ["POST", "GET", "PUT", "DELETE"] as const;
+
+export const fetchInstance2 = async <T>(
+  url: string,
+  options: RequestInit = {},
+  method: (typeof ALLOWED_METHODS)[number]
+): Promise<T> => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${url}`, {
+    ...options,
+    method: method || "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // Include cookies
+  });
+
+  const jsonResponse = response.json();
+  return jsonResponse as Promise<T>;
 };

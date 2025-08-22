@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { masterImageBackgrounArt2 } from "@/app/static/imageImports";
 import { masterImageBackgrounArt1 } from "@/app/static/imageImports";
@@ -10,10 +11,11 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { axiosInstance } from "@/lib/axios";
-import { getProfileAction, loginAction } from "@/services/auth.service";
+import { fetchInstance2 } from "@/lib/fetch";
+import { loginAction } from "@/services/auth.service";
+import toast from "react-hot-toast";
 
-export default function Page() {
+export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -26,25 +28,14 @@ export default function Page() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    // setSubmitting(true);
-    // const response = await loginAction("test@example.com", "password123");
-    // const response = await getProfileAction();
-    // console.log(response);
-    // console.log("Form Data:", data);
-    const baseUrl = "http://localhost:3001";
-    const res = await fetch(`${baseUrl}/auth/login`, {
-      method: "POST",
-      credentials: "same-origin", // ✅ ensures cookies are sent (Node 18+ fetch supports it)
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    const response = await res.json();
-    console.log("response frontend: ", response);
-
-    // setSubmitting(false);
+    setSubmitting(true);
+    const response = await loginAction(data);
+    if (response.success) {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message || "Something went wrong");
+    }
+    setSubmitting(false);
   };
 
   return (
