@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { fetchInstance2 } from "@/lib/fetch";
+
 import { loginAction } from "@/services/auth.service";
 import toast from "react-hot-toast";
 

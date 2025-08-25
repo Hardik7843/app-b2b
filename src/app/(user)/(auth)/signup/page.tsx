@@ -9,13 +9,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   LoginFormData,
   loginSchema,
+  SignupFormData,
   signupSchema,
 } from "@/validators/auth.validator";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { fetchInstance2 } from "@/lib/fetch";
 import { loginAction } from "@/services/auth.service";
 import toast from "react-hot-toast";
 
@@ -31,7 +31,7 @@ export default function SignUpPage() {
     resolver: zodResolver(signupSchema),
   });
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async (data: SignupFormData) => {
     setSubmitting(true);
     const response = await loginAction(data);
     if (response.success) {
