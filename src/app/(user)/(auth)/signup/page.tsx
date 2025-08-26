@@ -29,6 +29,13 @@ export default function SignUpPage() {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(signupSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      email: "",
+      password: "",
+    },
   });
 
   const onSubmit = async (data: SignupFormData) => {
@@ -53,7 +60,7 @@ export default function SignUpPage() {
             alt="ImageArt1"
           />
         </div> */}
-        <div className="relative aspect-square w-ful;">
+        <div className="relative aspect-square w-full">
           <Image
             className="object-contain"
             src={masterImageBackgrounArt2}
@@ -138,6 +145,7 @@ export default function SignUpPage() {
 
           <div className="flex space-x-1 items-center">
             <Checkbox
+              // defaultChecked={false}
               checked={showPassword}
               onCheckedChange={(value) => setShowPassword(!!value)}
               id="showPassword"
@@ -147,6 +155,7 @@ export default function SignUpPage() {
           </div>
 
           <Button
+            id="signupButton"
             disabled={submitting}
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"

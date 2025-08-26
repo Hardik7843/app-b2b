@@ -2,7 +2,7 @@ import { UserType } from "@/services/auth.service";
 import { NextRequest, NextResponse } from "next/server";
 
 type AdminCheckResponse = {
-  data: UserType | null;
+  data: { user: UserType } | null;
   message: string;
   success: boolean;
   sessionToken?: string;
@@ -29,21 +29,16 @@ export default async function middleware(request: NextRequest) {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionToken}`,
+            // Authorization: `Bearer ${sessionToken}`,
             // Include the cookie in the request header since we're server-side
             Cookie: `sessionToken=${sessionToken}`,
           },
         }
       );
 
-      if (!response.ok) {
-        console.log("Backend response not ok, redirecting to login");
-        return NextResponse.redirect(new URL("/login", request.url));
-      }
-
       const session: AdminCheckResponse = await response.json();
 
-      console.log("Middleware -> session", session);
+      // console.log("Middleware -> session", session);
 
       // Check if session is successful and has data
       if (session.success === false || !session.data) {
@@ -54,7 +49,7 @@ export default async function middleware(request: NextRequest) {
       // Check if user is admin and email is verified
       if (
         !session.data ||
-        session.data?.type !== "ADMIN"
+        session.data?.user.type !== "ADMIN"
         // !session.data.emailVerified
       ) {
         console.log(

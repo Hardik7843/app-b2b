@@ -41,6 +41,11 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Admin Colors */
+  --color-admin-primary: var(--admin-primary);
+  --color-admin-secondary: var(--admin-secondary);
+  --color-admin-accent: var(--admin-accent);
 }
 
 :root {
@@ -76,6 +81,12 @@
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.015 286.067);
+
+  /* Admin Colors */
+  --admin-primary: oklch(35.951% 0.18088 272.602);
+  --admin-secondary: oklch(100% 0.00011 271.152);
+  --admin-accent: oklch(59.451% 0.23445 264.376);
+
 }
 
 .dark {

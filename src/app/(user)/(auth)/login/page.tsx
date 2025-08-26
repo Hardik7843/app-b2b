@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { masterImageBackgrounArt2 } from "@/app/static/imageImports";
-import { masterImageBackgrounArt1 } from "@/app/static/imageImports";
+// import { masterImageBackgrounArt1 } from "@/app/static/imageImports";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -29,6 +28,8 @@ export default function SignInPage() {
 
   const onSubmit = async (data: LoginFormData) => {
     setSubmitting(true);
+    console.log(data);
+
     const response = await loginAction(data);
     if (response.success) {
       toast.success(response.message);
@@ -49,7 +50,7 @@ export default function SignInPage() {
             alt="ImageArt1"
           />
         </div> */}
-        <div className="relative aspect-square w-ful;">
+        <div className="relative aspect-square w-full">
           <Image
             className="object-contain"
             src={masterImageBackgrounArt2}
@@ -92,7 +93,8 @@ export default function SignInPage() {
 
           <div className="flex space-x-1 items-center">
             <Checkbox
-              checked={showPassword}
+              defaultChecked={false}
+              // checked={showPassword}
               onCheckedChange={(value) => setShowPassword(!!value)}
               id="showPassword"
             />
@@ -101,6 +103,7 @@ export default function SignInPage() {
           </div>
 
           <Button
+            id="loginButton"
             disabled={submitting}
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"

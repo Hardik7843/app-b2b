@@ -22,3 +22,10 @@ export const fetchInstance = async <T>(
   const jsonResponse = response.json();
   return jsonResponse as Promise<T>;
 };
+
+export type ApiResponse<T> = {
+  success: boolean;
+  message: string;
+  data?: T;
+  error?: string;
+};

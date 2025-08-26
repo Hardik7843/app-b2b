@@ -11,6 +11,7 @@ import { redirect } from "next/navigation";
 // import { SidebarProvider } from '@/components/adminLayout/SidebarProvider';
 // import SidebarContentWrapper from '@/components/adminLayout/SidebarContentWrapper';
 import { getAdminProfile, getProfileAction } from "@/services/auth.service";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Souk Admin",
@@ -39,27 +40,8 @@ export default async function RootLayout({
 
   return (
     <div className={` flex `}>
-      Admin Here
-      {/* <SessionProvider>
-        <PrimeReactProvider>
-          <SidebarProvider>
-            <div>
-              <div className={`fixed top-0 left-0 h-full z-40 `}>
-                <Sidebar />
-              </div>
-              <SidebarContentWrapper>
-                <div className="flex flex-col min-h-screen w-full">
-                  <div className={`sticky top-0 z-30  `}>
-                    <AdminBreadcrumbs />
-                  </div>
-                  <main className="flex-1  overflow-x-hidden">{children}</main>
-                </div>
-              </SidebarContentWrapper>
-            </div>
-          </SidebarProvider>
-        </PrimeReactProvider>
-        <Toaster />
-      </SessionProvider> */}
+      <div>{children}</div>
+      <Toaster />
     </div>
   );
 }

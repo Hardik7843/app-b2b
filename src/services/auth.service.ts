@@ -6,6 +6,8 @@ import { LoginFormData } from "@/validators/auth.validator";
 
 // ✅ login action
 export async function loginAction(data: LoginFormData) {
+  console.log("loginAction -> data", data);
+
   const response = await fetchInstance<{
     data: any;
     message: string;
