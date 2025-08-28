@@ -63,6 +63,7 @@ const ProductListPage = () => {
     } else {
       console.error("Failed to fetch products:", response.message);
     }
+
     setLoading(false);
   };
 
