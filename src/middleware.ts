@@ -9,7 +9,7 @@ type AdminCheckResponse = {
 };
 
 export default async function middleware(request: NextRequest) {
-  console.log("Middleware invoked for URL:", request.url);
+  // console.log("Middleware invoked for URL:", request.url);
   // Only run on admin routes
   if (request.nextUrl.pathname.startsWith("/admin")) {
     // Get the session cookie
@@ -17,7 +17,7 @@ export default async function middleware(request: NextRequest) {
 
     if (!sessionToken) {
       // No token, redirect to login
-      console.log("No session token found, redirecting to login");
+      // console.log("No session token found, redirecting to login");
       return NextResponse.redirect(new URL("/login", request.url));
     }
 
@@ -42,7 +42,7 @@ export default async function middleware(request: NextRequest) {
 
       // Check if session is successful and has data
       if (session.success === false || !session.data) {
-        console.log("Session unsuccessful or no data, redirecting to home");
+        // console.log("Session unsuccessful or no data, redirecting to home");
         return NextResponse.redirect(new URL("/", request.url));
       }
 
@@ -52,14 +52,14 @@ export default async function middleware(request: NextRequest) {
         session.data?.user.type !== "ADMIN"
         // !session.data.emailVerified
       ) {
-        console.log(
-          "User not admin or email not verified, redirecting to login"
-        );
+        // console.log(
+        //   "User not admin or email not verified, redirecting to login"
+        // );
         return NextResponse.redirect(new URL("/login", request.url));
       }
 
       // All checks passed, allow access to admin area
-      console.log("Admin authentication successful, allowing access");
+      // console.log("Admin authentication successful, allowing access");
       return NextResponse.next();
     } catch (error) {
       console.error("Middleware error:", error);

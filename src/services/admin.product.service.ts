@@ -20,6 +20,15 @@ export type Product = ProductData & {
   updatedAt: string;
 };
 
+export type Pagination = {
+  page: number;
+  limit: number;
+  total: number;
+  pages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+};
+
 // Get product by ID
 export async function getProductById(
   id: number
@@ -88,13 +97,17 @@ export async function editProduct(
 }
 
 // Get all products (bonus function for listing page)
-export async function getAllProducts(): Promise<ApiResponse<Product[]>> {
+export async function getAllProducts(): Promise<
+  ApiResponse<{ admin: UserType; product: Product[]; pagination: Pagination }>
+> {
   try {
-    const response = await fetchInstance<ApiResponse<Product[]>>(
-      "/admin/product/all",
-      {},
-      "GET"
-    );
+    const response = await fetchInstance<
+      ApiResponse<{
+        admin: UserType;
+        product: Product[];
+        pagination: Pagination;
+      }>
+    >("/admin/product/all", {}, "GET");
     return response;
   } catch (error) {
     console.error("Error fetching products:", error);
