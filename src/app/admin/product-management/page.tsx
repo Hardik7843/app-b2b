@@ -27,6 +27,7 @@
 
 import { getAllProducts, Product } from "@/services/admin.product.service";
 import React, { useState, useEffect } from "react";
+import dayjs from "dayjs";
 import {
   Select,
   SelectTrigger,
@@ -35,8 +36,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Loader } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 
-const PAGE_SIZE = 6; // products per page
+const PAGE_SIZE = 20; // products per page
 
 const ProductListPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -57,8 +61,9 @@ const ProductListPage = () => {
     //   page,
     //   limit: PAGE_SIZE,
     // });
+    console.log("response: ", response);
     if (response.success && response.data) {
-      setProducts(response.data.product);
+      setProducts(response.data.products);
       setTotalPages(Math.ceil(response.data.pagination.total / PAGE_SIZE));
     } else {
       console.error("Failed to fetch products:", response.message);
@@ -68,7 +73,7 @@ const ProductListPage = () => {
   };
 
   return (
-    <div className="p-6 space-y-4">
+    <div className="w-full space-y-4">
       {/* Filter + Loader */}
       <div className="flex items-center justify-between">
         <Select
@@ -85,20 +90,66 @@ const ProductListPage = () => {
             <SelectItem value="oldest">Oldest</SelectItem>
           </SelectContent>
         </Select>
-
-        {loading && <span className="text-sm text-gray-500">Loading...</span>}
       </div>
 
       {/* Product list */}
-      <div className="grid grid-cols-3 gap-4">
-        {!loading &&
-          products.map((product) => (
-            <div key={product.id} className="border rounded-xl p-4 shadow">
-              <h3 className="font-semibold">{product.name}</h3>
-              <p className="text-sm text-gray-500">{product.description}</p>
-            </div>
-          ))}
-      </div>
+
+      {loading ? (
+        <div className="flex justify-center items-center">
+          <Loader className="animate-spin"></Loader>
+        </div>
+      ) : (
+        products.length > 0 && (
+          <div className="grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            {products.map((product) => (
+              <div
+                key={product.id}
+                className="border-black border rounded-2xl relative"
+              >
+                <div
+                  className={`absolute border border-black z-10  top-[10px] left-[10px] rounded-[10px] px-4 py-1 text-xs ${
+                    product.active
+                      ? "bg-admin-active text-[#333] "
+                      : "bg-admin-inactive text-[#333] "
+                  }`}
+                >
+                  {product.active ? "LIVE" : "DRAFT"}
+                </div>
+                {/* <div
+                  className={`${
+                    product.active ? "bg-green-400" : "bg-gray-500"
+                  }`}
+                >
+                  {product.active ? "Live" : "Draft"}
+                </div> */}
+                <Link href={`product-management/manage/${product.id}`}>
+                  <div className="relative aspect-square ">
+                    <Image
+                      className="rounded-t-2xl"
+                      alt="Product Image"
+                      fill
+                      src={
+                        "https://ckfob8zphd0vlpan.public.blob.vercel-storage.com/open-burger-and-french-fries.webp"
+                      }
+                    />
+                  </div>
+                </Link>
+                <div className="px-2 py-1">
+                  <p className="font-bold">{product.name}</p>
+                  <p className="text-md">
+                    Created : {dayjs(product.createdAt).format("DD-MMM-YYYY")}
+                  </p>
+                  <p className="text-md">
+                    Updated : {dayjs(product.updatedAt).format("DD-MMM-YYYY")}
+                  </p>
+                  <p className="text-md">Price : ₹ {product.originalPrice}</p>
+                  <p className="text-md">Selling : ₹ {product.price}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+      )}
 
       {/* Pagination */}
       <div className="flex justify-center items-center gap-4 mt-4">

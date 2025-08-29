@@ -6,5 +6,6 @@ declare namespace NodeJS {
   interface ProcessEnv {
     NODE_ENV: string;
     BASE_URL: string;
+    BLOB_READ_WRITE_TOKEN: string;
   }
 }

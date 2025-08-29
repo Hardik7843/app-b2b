@@ -25,6 +25,9 @@ import {
   createProductSchema,
   CreateProductInput,
 } from "@/validators/admin.product.validator";
+import { number } from "zod";
+import { Divide, Plus, Upload } from "lucide-react";
+import ImageManager from "../../_components/ImageManagement";
 
 export default function ProductManagementPage() {
   const params = useParams();
@@ -32,7 +35,10 @@ export default function ProductManagementPage() {
   const [loading, setLoading] = useState(false);
   const [fetchingProduct, setFetchingProduct] = useState(false);
   const [product, setProduct] = useState<null | CreateProductInput>(null);
-
+  const [images, setImages] = useState<string[]>(product?.images || []);
+  const [imageInputs, setImageInputs] = useState<
+    { sequence: number; image: string }[]
+  >([]);
   const productId = params?.id as string;
   const isEditing = productId && productId !== "new";
   const isCreating = productId === "new";
@@ -104,15 +110,22 @@ export default function ProductManagementPage() {
     try {
       let response;
 
+      if (images.length === 0) {
+        toast.error("At least one image required");
+        return;
+      }
+
+      const payload = { ...data, images };
+
       if (isCreating) {
-        response = await createProduct(data);
+        response = await createProduct(payload);
         if (response.success) {
           toast.success("Product created successfully!");
         } else {
           toast.error(response.message || "Failed to create product");
         }
       } else if (isEditing) {
-        response = await editProduct(Number(productId), data);
+        response = await editProduct(Number(productId), payload);
         if (response.success) {
           toast.success("Product updated successfully!");
         } else {
@@ -138,21 +151,34 @@ export default function ProductManagementPage() {
   }
 
   return (
-    <div className="w-screen min-h-screen p-6">
+    <div className="w-full">
       <h1>{isCreating ? "Create New Product" : `Edit Product ${productId}`}</h1>
       <div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Name */}
-          <div className="space-y-2">
-            <Label htmlFor="name">Product Name *</Label>
-            <Input
-              id="name"
-              {...register("name")}
-              placeholder="Enter product name"
-            />
-            {errors.name && (
-              <p className="text-red-500 text-sm">{errors.name.message}</p>
-            )}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="name">Product Name *</Label>
+              <Input
+                id="name"
+                {...register("name")}
+                placeholder="Enter product name"
+              />
+              {errors.name && (
+                <p className="text-red-500 text-sm">{errors.name.message}</p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="stock">Stock *</Label>
+              <Input
+                id="stock"
+                type="number"
+                {...register("stock", { valueAsNumber: true })}
+              />
+              {errors.stock && (
+                <p className="text-red-500 text-sm">{errors.stock.message}</p>
+              )}
+            </div>
           </div>
 
           {/* Description */}
@@ -201,31 +227,49 @@ export default function ProductManagementPage() {
             </div>
           </div>
 
-          {/* Stock */}
-          <div className="space-y-2">
-            <Label htmlFor="stock">Stock *</Label>
-            <Input
-              id="stock"
-              type="number"
-              {...register("stock", { valueAsNumber: true })}
-            />
-            {errors.stock && (
-              <p className="text-red-500 text-sm">{errors.stock.message}</p>
+          {/* <ImageManager /> */}
+          <ImageManager initialImages={product?.images} onChange={setImages} />
+          {/* <div>
+            {imageInputs.length > 0 && (
+              <div className="flex flex-col md:flex-row gap-1.5">
+                {imageInputs.map((imageInput) => (
+                  <div className="border" key={imageInput.sequence}>
+                    <div className="flex">
+                      <Upload />
+                    </div>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
+
+          <div>
+            <Button
+              className="bg-admin-button-primary"
+              type="button"
+              onClick={() =>
+                setImageInputs((prev) => [
+                  ...prev,
+                  { sequence: prev.length + 1, image: "" },
+                ])
+              }
+            >
+              <Plus /> Add Image
+            </Button>
+          </div> */}
 
           {/* Action Buttons */}
           <div className="flex justify-end space-x-4 pt-6">
             <Button
               type="button"
               variant="outline"
-              onClick={() => router.push("/admin/products")}
+              onClick={() => router.push("/admin/product-management")}
               disabled={loading}
             >
               Cancel
             </Button>
             <Button
-              className="bg-admin-primary"
+              className=" bg-admin-button-primary"
               type="submit"
               disabled={loading}
             >

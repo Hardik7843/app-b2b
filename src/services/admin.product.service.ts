@@ -98,13 +98,13 @@ export async function editProduct(
 
 // Get all products (bonus function for listing page)
 export async function getAllProducts(): Promise<
-  ApiResponse<{ admin: UserType; product: Product[]; pagination: Pagination }>
+  ApiResponse<{ admin: UserType; products: Product[]; pagination: Pagination }>
 > {
   try {
     const response = await fetchInstance<
       ApiResponse<{
         admin: UserType;
-        product: Product[];
+        products: Product[];
         pagination: Pagination;
       }>
     >("/admin/product/all", {}, "GET");

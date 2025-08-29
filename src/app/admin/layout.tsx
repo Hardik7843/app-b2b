@@ -12,9 +12,12 @@ import { redirect } from "next/navigation";
 // import SidebarContentWrapper from '@/components/adminLayout/SidebarContentWrapper';
 import { getAdminProfile, getProfileAction } from "@/services/auth.service";
 import { Toaster } from "react-hot-toast";
+import AdminSideBar from "./_components/AdminSideBar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/ui/app-sidebar";
 
 export const metadata: Metadata = {
-  title: "Souk Admin",
+  title: "Admin Panel",
   description: "",
 };
 
@@ -39,8 +42,20 @@ export default async function RootLayout({
   //   }
 
   return (
-    <div className={` flex `}>
-      <div>{children}</div>
+    <div className="w-screen ">
+      {/* <div className="border border-blue-400 w-fit">
+        <AdminSideBar></AdminSideBar>
+      </div> */}
+      <SidebarProvider>
+        <AppSidebar />
+
+        <main className="w-full">
+          <div className="border w-full px-4">
+            <SidebarTrigger />
+          </div>
+          <div className="border w-full p-4">{children}</div>
+        </main>
+      </SidebarProvider>
       <Toaster />
     </div>
   );

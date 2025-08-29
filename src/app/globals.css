@@ -46,6 +46,17 @@
   --color-admin-primary: var(--admin-primary);
   --color-admin-secondary: var(--admin-secondary);
   --color-admin-accent: var(--admin-accent);
+  --color-admin-active: var(--admin-active);
+  --color-admin-dark-text: var(--admin-dark-text);
+  --color-admin-light-text: var(--admin-light-text);
+  --color-admin-destructive: var(--admin-destructive);
+  --color-admin-edit-dark: var(--admin-edit-dark);
+  --color-admin-edit-light: var(--admin-edit-light);
+  --color-admin-active-dark: var(--admin-active-dark);
+  --color-admin-delete-dark: var(--admin-delete-dark);
+  --color-admin-delete-light: var(--admin-delete-light);
+  --color-admin-button-primary: var(--admin-button-primary);
+  
 }
 
 :root {
@@ -83,10 +94,22 @@
   --sidebar-ring: oklch(0.705 0.015 286.067);
 
   /* Admin Colors */
-  --admin-primary: oklch(35.951% 0.18088 272.602);
+  --admin-primary: oklch(90.651% 0.1456 119.383);
   --admin-secondary: oklch(100% 0.00011 271.152);
   --admin-accent: oklch(59.451% 0.23445 264.376);
+  --admin-active: #bafdbab0;
+  --admin-inactive: #e0e0e0;
 
+  --admin-dark-text: #3b3b3b;
+  --admin-light-text: #9a9ba1;
+  --admin-destructive: #f4f4f5;
+  --admin-edit-dark: #ffc325;
+  --admin-edit-light: #fffaeb;
+  --admin-active-light: #bafdba;
+  --admin-active-dark: #25c06d;
+  --admin-delete-dark: #ef483d;
+  --admin-delete-light: #ffcaca;
+  --admin-button-primary: #2e2e2e;
 }
 
 .dark {
@@ -121,6 +144,8 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.552 0.016 285.938);
+
+  /* Admin Colors */
 }
 
 @layer base {
