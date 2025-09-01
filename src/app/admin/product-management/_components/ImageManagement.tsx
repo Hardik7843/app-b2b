@@ -136,7 +136,10 @@ export default function ImageManager({
           className="bg-admin-button-primary"
           type="button"
           onClick={() => {
-            if (imageInputs[imageInputs.length - 1].image) {
+            if (
+              imageInputs.length > 0 &&
+              imageInputs[imageInputs.length - 1].image
+            ) {
               setImageInputs((prev) => [
                 ...prev,
                 { sequence: prev.length + 1, image: "", uploading: false },
