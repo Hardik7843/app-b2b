@@ -1,15 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { fetchInstance } from "@/lib/fetch";
-import { LoginFormData } from "@/validators/auth.validator";
+import { LoginFormData, SignupFormData } from "@/validators/auth.validator";
 // import { cookies } from "next/headers";
 
 // ✅ login action
-export async function loginAction(data: LoginFormData) {
+export async function signUpAction(data: SignupFormData) {
   console.log("loginAction -> data", data);
 
   const response = await fetchInstance<{
     data: any;
+    message: string;
+    success: boolean;
+    sessionToken: string;
+  }>("/auth/signup", { body: JSON.stringify(data) }, "POST");
+
+  await cookieStore.set("sessionToken2", response.sessionToken);
+  return response;
+}
+
+export async function loginAction(data: LoginFormData) {
+  console.log("loginAction -> data", data);
+
+  const response = await fetchInstance<{
+    data: { user: UserType };
     message: string;
     success: boolean;
     sessionToken: string;

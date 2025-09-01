@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { loginAction } from "@/services/auth.service";
+import { loginAction, signUpAction } from "@/services/auth.service";
 import toast from "react-hot-toast";
 
 export default function SignUpPage() {
@@ -40,7 +40,7 @@ export default function SignUpPage() {
 
   const onSubmit = async (data: SignupFormData) => {
     setSubmitting(true);
-    const response = await loginAction(data);
+    const response = await signUpAction(data);
     if (response.success) {
       toast.success(response.message);
     } else {

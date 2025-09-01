@@ -13,11 +13,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 import { loginAction } from "@/services/auth.service";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -33,6 +34,12 @@ export default function SignInPage() {
     const response = await loginAction(data);
     if (response.success) {
       toast.success(response.message);
+      console.log("response: ", response.data.user.type);
+      if (response.data.user.type === "ADMIN") {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
     } else {
       toast.error(response.message || "Something went wrong");
     }
