@@ -6,6 +6,7 @@ import { put, del } from "@vercel/blob"; // Vercel Blob SDK
 export async function uploadImage(file: File): Promise<string> {
   const blob = await put(file.name, file, {
     access: "public", // or private if you want signed URLs later
+    allowOverwrite: true,
   });
 
   return blob.url;

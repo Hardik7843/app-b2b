@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -43,6 +43,9 @@ export default function ProductManagementPage() {
   const isEditing = productId && productId !== "new";
   const isCreating = productId === "new";
 
+  const handleImagesChange = useCallback((urls: string[]) => {
+    setImages(urls);
+  }, []);
   //   const {
   //     register,
   //     handleSubmit,
@@ -75,29 +78,40 @@ export default function ProductManagementPage() {
   //   const isActive = watch("active");
 
   // Fetch product details if editing
-  useEffect(() => {
-    const fetchProduct = async () => {
-      if (!isEditing) return;
 
-      setFetchingProduct(true);
-      try {
-        const response = await getProductById(parseInt(productId));
-        if (response.success && response.data) {
-          const productFetched = response.data.product;
-          setProduct(productFetched);
-          reset(productFetched);
-        } else {
-          toast.error("Failed to fetch product details");
-          router.push("/admin/products");
-        }
-      } catch (error) {
-        // console.error("Error fetching product:", error);
-        toast.error("Error loading product details");
+  useEffect(() => {
+    if (product?.images) {
+      setImages(product.images);
+    }
+  }, [product]);
+
+  const fetchProduct = async () => {
+    if (!isEditing) return;
+
+    setFetchingProduct(true);
+    try {
+      const response = await getProductById(parseInt(productId));
+      if (response.success && response.data) {
+        const productFetched = response.data.product;
+        setProduct(productFetched);
+        reset(productFetched);
+      } else {
+        toast.error("Failed to fetch product details");
         router.push("/admin/products");
-      } finally {
-        setFetchingProduct(false);
       }
-    };
+    } catch (error) {
+      // console.error("Error fetching product:", error);
+      toast.error("Error loading product details");
+      router.push("/admin/products");
+    } finally {
+      setFetchingProduct(false);
+    }
+  };
+
+  useEffect(() => {
+    if (productId === "new") {
+      return;
+    }
 
     fetchProduct();
   }, [isEditing, productId, reset, router]);
@@ -228,7 +242,10 @@ export default function ProductManagementPage() {
           </div>
 
           {/* <ImageManager /> */}
-          <ImageManager initialImages={product?.images} onChange={setImages} />
+          <ImageManager
+            initialImages={product?.images}
+            onChange={handleImagesChange}
+          />
           {/* <div>
             {imageInputs.length > 0 && (
               <div className="flex flex-col md:flex-row gap-1.5">
