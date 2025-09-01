@@ -15,6 +15,7 @@ export async function loginAction(data: LoginFormData) {
     sessionToken: string;
   }>("/auth/login", { body: JSON.stringify(data) }, "POST");
 
+  await cookieStore.set("sessionToken2", response.sessionToken);
   return response;
 }
 

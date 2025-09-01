@@ -13,7 +13,7 @@ export default async function middleware(request: NextRequest) {
   // Only run on admin routes
   if (request.nextUrl.pathname.startsWith("/admin")) {
     // Get the session cookie
-    const sessionToken = request.cookies.get("sessionToken")?.value;
+    const sessionToken = request.cookies.get("sessionToken2")?.value;
 
     if (!sessionToken) {
       // No token, redirect to login
