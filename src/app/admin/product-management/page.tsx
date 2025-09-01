@@ -36,7 +36,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Loader } from "lucide-react";
+import { Loader, Plus } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -90,6 +90,14 @@ const ProductListPage = () => {
             <SelectItem value="oldest">Oldest</SelectItem>
           </SelectContent>
         </Select>
+
+        <Link
+          href="/admin/product-management/manage/new"
+          className="flex items-center gap-2 rounded-xl bg-admin-button-primary px-1.5 py-1.5 text-xs font-medium text-white transition-all duration-200 hover:bg-admin-button-primary/90 active:scale-95 sm:px-4 sm:py-2 sm:text-sm"
+        >
+          <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
+          <span>New Product</span>
+        </Link>
       </div>
 
       {/* Product list */}
