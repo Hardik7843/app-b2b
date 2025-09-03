@@ -1,6 +1,7 @@
 import { ApiResponse, fetchInstance } from "@/lib/fetch";
 import { UserType } from "./auth.service";
 import { CreateProductInput } from "@/validators/admin.product.validator";
+import { number } from "zod";
 
 // services/product.service.ts
 type ProductData = {
@@ -96,18 +97,40 @@ export async function editProduct(
   }
 }
 
+export interface ProductFilters {
+  page?: number;
+  limit?: number;
+  name?: string;
+  tags?: string;
+  description?: string;
+  priceSort?: "DESC" | "ASC";
+  dateSort?: "DESC" | "ASC";
+  minPrice?: number;
+  maxPrice?: number;
+  dateFrom?: string;
+  dateTo?: string;
+  active?: string;
+}
+
 // Get all products (bonus function for listing page)
-export async function getAllProducts(): Promise<
+export async function getAllProducts(
+  filtersOptions: ProductFilters
+): Promise<
   ApiResponse<{ admin: UserType; products: Product[]; pagination: Pagination }>
 > {
   try {
+    console.log("filtersOptions: ", filtersOptions);
     const response = await fetchInstance<
       ApiResponse<{
         admin: UserType;
         products: Product[];
         pagination: Pagination;
       }>
-    >("/admin/product/all", {}, "GET");
+    >(
+      "/admin/product/all",
+      { body: JSON.stringify({ ...filtersOptions }) },
+      "POST"
+    );
     return response;
   } catch (error) {
     console.error("Error fetching products:", error);

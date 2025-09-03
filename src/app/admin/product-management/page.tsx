@@ -55,7 +55,11 @@ const ProductListPage = () => {
 
   const fetchProducts = async () => {
     setLoading(true);
-    const response = await getAllProducts();
+    const response = await getAllProducts({
+      dateSort: sortOrder === "newest" ? "DESC" : "ASC",
+      page,
+      limit: PAGE_SIZE,
+    });
     // const response = await getAllProducts({
     //   sort: sortOrder,
     //   page,

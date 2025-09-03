@@ -6,7 +6,7 @@ import { LoginFormData, SignupFormData } from "@/validators/auth.validator";
 
 // ✅ login action
 export async function signUpAction(data: SignupFormData) {
-  console.log("loginAction -> data", data);
+  // console.log("loginAction -> data", data);
 
   const response = await fetchInstance<{
     data: any;
@@ -20,7 +20,7 @@ export async function signUpAction(data: SignupFormData) {
 }
 
 export async function loginAction(data: LoginFormData) {
-  console.log("loginAction -> data", data);
+  // console.log("loginAction -> data", data);
 
   const response = await fetchInstance<{
     data: { user: UserType };

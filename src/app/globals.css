@@ -57,6 +57,15 @@
   --color-admin-delete-light: var(--admin-delete-light);
   --color-admin-button-primary: var(--admin-button-primary);
   
+
+  /* User Colors */
+  --color-user-primary: var(--user-primary);
+  --color-user-primary-button: var(--user-primary-button);
+  --color-user-secondary-button: var(--user-secondary-button);
+  --color-user-primary-light-text: var(--user-primary-light-text);
+  --color-user-primary-dark-text: var(--user-primary-dark-text);
+  --color-user-danger: var(--user-danger);
+  --color-user-safe: var(--user-safe);
 }
 
 :root {
@@ -93,13 +102,24 @@
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.015 286.067);
 
+
+  /* User Colors */
+  --user-primary: oklch(66.022% 0.22708 30.854);
+  --user-primary-button: oklch(66.022% 0.22708 30.854);
+  --user-secondary-button: #3c2f2f;
+  --user-primary-light-text: #f5f5f5;
+  --user-primary-dark-text: #3b3b3b;
+  --user-secondary-button: #f3f4f6;
+  --user-danger: #ef2a39;
+  --user-safe: #1cc019;
+
+
   /* Admin Colors */
   --admin-primary: oklch(90.651% 0.1456 119.383);
   --admin-secondary: oklch(100% 0.00011 271.152);
   --admin-accent: oklch(59.451% 0.23445 264.376);
   --admin-active: #bafdbab0;
   --admin-inactive: #e0e0e0;
-
   --admin-dark-text: #3b3b3b;
   --admin-light-text: #9a9ba1;
   --admin-destructive: #f4f4f5;
